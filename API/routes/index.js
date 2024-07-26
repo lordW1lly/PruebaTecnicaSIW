@@ -6,7 +6,7 @@ const { User, Factura } = require("../dbase");
 const router = Router();
 
 
-//!! HAY QUE HACER EL PRIMER GET ASI HAY ALGO
+
 router.get('/users', async (req,res) => {
     const idUsuario = req.params.idUsuario;
     if(!idUsuario) {
@@ -78,19 +78,19 @@ router.put("/user/:idUsuario", async (req, res) => {
     const { username, name, password } = req.body;
 
     try {
-        // Buscar el usuario existente por su ID
+        
         const existingUser = await User.findByPk(idUsuario);
 
         if (!existingUser) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // Actualizar los campos necesarios
+        
         existingUser.username = username;
         existingUser.name = name;
         existingUser.password = password;
 
-        // Guardar los cambios
+       
         await existingUser.save();
 
         res.status(200).json({ message: 'Usuario actualizado exitosamente', user: existingUser });
@@ -105,8 +105,7 @@ router.post('/login', async (req, res) => {
     
 
     try {
-        // Verifica las credenciales (esto puede variar según tu base de datos)
-        //const user = await User.findOne({ username, password });
+      
         const user = await User.findOne({
             where: {
               username,

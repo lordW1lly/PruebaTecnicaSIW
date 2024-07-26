@@ -19,7 +19,7 @@ export function ViewFacturas() {
 
       } catch (error) {
         console.error('Error al obtener las facturas:', error);
-        // Aquí puedes manejar el error según tus necesidades (por ejemplo, mostrar un mensaje de error al usuario)
+        
       }
     };
 

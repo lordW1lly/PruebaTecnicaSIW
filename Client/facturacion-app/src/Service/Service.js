@@ -5,7 +5,7 @@ const idUsuario = usernameData ? usernameData.idUsuario : null;
 
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:3001', // Reemplaza con la URL de tu API
+    baseURL: 'http://localhost:3001', 
     headers: {
         'Content-Type': 'application/json'
     },

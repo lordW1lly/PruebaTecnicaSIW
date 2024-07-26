@@ -36,9 +36,9 @@ sequelize.models = Object.fromEntries(capsEntries);
 // Para relacionarlos hacemos un destructuring
 const { User, Factura } = sequelize.models;
 
-//**Relaciones */
-//!! me parece que no hay relaciones!! 
-//User.belongsToMany(Factura, {through: 'user_facturas'});
+
+
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

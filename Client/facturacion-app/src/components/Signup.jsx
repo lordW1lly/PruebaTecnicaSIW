@@ -18,7 +18,7 @@ export  function SignUp () {
          })
           
         
-        // Aquí iría la lógica para enviar los datos del formulario al servidor
+        
         console.log('Formulario enviado');
       };
     
@@ -42,7 +42,7 @@ export  function SignUp () {
               <label htmlFor="password" className="form-label">Contraseña</label>
               <input type="password" className="form-control" id="password" placeholder="Ingrese su contraseña" />
             </div>
-            {/* Resto de los campos del formulario */}
+           
             <button type="submit" className="btn btn-primary">
               Registrarse
             </button>

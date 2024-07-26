@@ -55,7 +55,7 @@ export function Login() {
                 placeholder="Ingrese su contraseña"
               />
             </div>
-            {/* Resto de los campos del formulario */}
+           
             <button type="submit" className="btn btn-primary">
               Iniciar sesión
             </button>
