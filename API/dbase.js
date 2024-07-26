@@ -1,17 +1,15 @@
 const { Sequelize } = require('sequelize');
-
+require('dotenv').config()
 const fs = require('fs');
 const path = require('path');
 
-// Crear una nueva instancia de Sequelize
-const sequelize = new Sequelize('facturaciondb', 'root', 'Canela447', {
-  host: 'localhost',
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
   port: 3306,
   dialect: 'mysql',
   define: {
-    timestamps: false // Deshabilita las columnas createdAt y updatedAt para todos los modelos
-  }
-  
+    timestamps: false,
+  },
 });
 
  

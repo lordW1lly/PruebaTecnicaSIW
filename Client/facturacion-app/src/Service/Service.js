@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+const usernameData = JSON.parse(localStorage.getItem('username'));
+const idUsuario = usernameData ? usernameData.idUsuario : null;
+
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:3001', // Reemplaza con la URL de tu API
@@ -7,7 +10,8 @@ const apiClient = axios.create({
         'Content-Type': 'application/json'
     },
     params: {
-        idUsuario : JSON.parse(localStorage.getItem('username')).idUsuario
+        //idUsuario : JSON.parse(localStorage.getItem('username')).idUsuario
+        idUsuario: idUsuario
     }
 });
 
