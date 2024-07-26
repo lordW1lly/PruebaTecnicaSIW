@@ -12,8 +12,8 @@ Ejecuta el siguiente comando para instalar las dependencias:
 
 Crea un archivo .env en la carpeta api y configura las variables de entorno necesarias (por ejemplo, la cadena de conexión a la base de datos).
 Ejecuta el siguiente comando para iniciar el servidor:
-```npm start```
-El backend estará disponible en http://localhost:3000.
+```node index.js```
+El backend estará disponible en http://localhost:3001.
 
 ## 3. Base de Datos
 Abre MySQL Workbench u otra herramienta de administración de MySQL.
