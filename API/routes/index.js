@@ -8,7 +8,12 @@ const router = Router();
 
 //!! HAY QUE HACER EL PRIMER GET ASI HAY ALGO
 router.get('/users', async (req,res) => {
+    const idUsuario = req.params.idUsuario;
+    if(!idUsuario) {
+        return res.status(401).send('No autorizado')
+    }
     const { name } = req.query;
+    
     if(!name) {
         try {
             
@@ -24,24 +29,16 @@ router.get('/users', async (req,res) => {
 })
 
 router.get('/facturas', async (req, res) => {
+    const idUsuario = req.query;
+    console.log('soy idUsuario', idUsuario)
+    if(!idUsuario) {
+        return res.status(401).send('No autorizado')
+    }
     try {
-        //const allFacturas = await Factura.findAll()
-        const facturas = [
-            //{"idFactura": 123, "cliente": "Pedro", "total": 12.24, "fecha": "2023-05-14T08:23:45.123Z"},
-           
-                {"idFactura": 123, "cliente": "Pedro", "total": 12.24, "fecha": "2023-05-14T08:23:45.123Z"},
-                {"idFactura": 124, "cliente": "Maria", "total": 45.67, "fecha": "2023-06-18T10:15:30.456Z"},
-                {"idFactura": 125, "cliente": "Juan", "total": 78.90, "fecha": "2023-07-22T12:45:12.789Z"},
-                {"idFactura": 126, "cliente": "Ana", "total": 23.45, "fecha": "2023-08-25T14:30:45.012Z"},
-                {"idFactura": 127, "cliente": "Luis", "total": 56.78, "fecha": "2023-09-30T16:20:30.345Z"},
-                {"idFactura": 128, "cliente": "Sofia", "total": 34.56, "fecha": "2023-10-05T18:10:15.678Z"},
-                {"idFactura": 129, "cliente": "Carlos", "total": 89.01, "fecha": "2023-11-10T20:05:45.901Z"},
-                {"idFactura": 130, "cliente": "Laura", "total": 12.34, "fecha": "2023-12-15T22:00:30.234Z"},
-                {"idFactura": 131, "cliente": "Miguel", "total": 67.89, "fecha": "2024-01-20T23:55:15.567Z"},
-                {"idFactura": 132, "cliente": "Lucia", "total": 45.67, "fecha": "2024-02-25T01:45:00.890Z"}
-        ]
-        console.log(facturas)
-        res.send(facturas)
+        const facturas = await Factura.findAll()
+        
+        //console.log(facturas)
+        res.status(200).json(facturas)
     } catch (error) {
         res.status(404).send('fallo el envio de facturas')
     }
@@ -49,6 +46,8 @@ router.get('/facturas', async (req, res) => {
 })
 
 router.post("/user", async (req, res) => {
+   
+    
     const { username, name, password } = req.body;
     try {
         const newUser = await User.create({
@@ -56,15 +55,26 @@ router.post("/user", async (req, res) => {
             name,
             password
         });
-        res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
+        const token = Date.now()
+        const user = {
+            username,
+            token,
+            idUsuario: newUser.idUsuario
+
+        }
+        res.status(201).json({ message: 'Usuario creado exitosamente', user });
 
     } catch (error) {
         res.status(404).send('error en el createUser')
     }
 })
 
+
 router.put("/user/:idUsuario", async (req, res) => {
     const idUsuario = req.params.idUsuario;
+    if(!idUsuario) {
+        return res.status(401).send('No autorizado')
+    }
     const { username, name, password } = req.body;
 
     try {
@@ -86,7 +96,35 @@ router.put("/user/:idUsuario", async (req, res) => {
         res.status(200).json({ message: 'Usuario actualizado exitosamente', user: existingUser });
     } catch (error) {
         console.error('Error al actualizar el usuario:', error);
-        res.status(500).send('Error al actualizar el usuario');
+        res.status(400).send('Error al actualizar el usuario');
+    }
+});
+
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    
+
+    try {
+        // Verifica las credenciales (esto puede variar según tu base de datos)
+        //const user = await User.findOne({ username, password });
+        const user = await User.findOne({
+            where: {
+              username,
+              password,
+            },
+          });
+        
+
+        if (user.dataValues.username !== username || user.dataValues.password !== password) {
+            return res.status(401).json({ message: 'Credenciales inválidas' });
+        }
+        const token = Date.now()
+
+        
+        res.status(200).json({ message: 'Inicio de sesión exitoso', token, idUsuario: user.dataValues.idUsuario});
+    } catch (error) {
+        
+        res.status(400).json(false);
     }
 });
 
